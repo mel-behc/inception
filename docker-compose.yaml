@@ -1,0 +1,69 @@
+version: '3'
+
+services:
+  mariadb:
+    container_name: mariadb
+    image: inception_mariadb
+    build: ./srcs/requirements/mariadb/
+    volumes:
+      - db_volume:/var/lib/mysql/
+    env_file: 
+      - .env
+    networks:
+      - internal_network
+    restart: on-failure
+
+  nginx:
+    container_name: nginx
+    image: inception_nginx
+    build: ./srcs/requirements/nginx/
+    depends_on:
+      - wordpress
+    volumes:
+      - wp_volume:/var/www/html
+    env_file: 
+      - .env
+    ports: 
+      - 443:443
+    networks:
+      - internal_network
+    restart: on-failure
+
+  wordpress:
+    container_name: wordpress
+    image: inception_wordperss
+    build: ./srcs/requirements/wordpress/
+    depends_on:
+      - mariadb
+    volumes:
+      - wp_volume:/var/www/html
+    env_file: 
+      - .env
+    ports:
+      - 9000:9000
+    networks:
+      - internal_network
+    restart: on-failure
+
+volumes:
+  wp_volume:
+    name: wp_volume
+    driver: local
+    driver_opts:
+      device: /Users/mel-behc/data/mariadb_volume
+      type: none
+      o: bind
+  db_volume:
+    name: db_volume
+    driver: local
+    driver_opts:
+      device: /Users/mel-behc/data/wordpress_volume
+      type: none
+      o: bind
+  
+networks:
+  internal_network:
+    name: 'internal_network'
+    driver: bridge
+
+
