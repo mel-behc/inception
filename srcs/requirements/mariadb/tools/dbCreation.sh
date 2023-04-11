@@ -2,7 +2,6 @@
 
 service mysql start 
 
-service mysql start 
 echo "CREATE DATABASE IF NOT EXISTS ${MYSQL_DB_NAME};" | mysql
 echo "CREATE USER IF NOT EXISTS '$MYSQL_USR'@'%' IDENTIFIED BY '$MYSQL_PWD';" | mysql
 echo "GRANT ALL PRIVILEGES ON $MYSQL_DB_NAME.* TO '$MYSQL_USR'@'%' ;" | mysql
