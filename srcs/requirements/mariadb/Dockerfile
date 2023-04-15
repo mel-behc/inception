@@ -1,12 +1,10 @@
 FROM debian:buster
 
-RUN apt-get -y update \
-    && apt-get install -y mariadb-server
+RUN apt-get update -y \
+    && apt-get install mariadb-server -y
 
 COPY ./tools/50-server.cnf /etc/mysql/mariadb.conf.d/
 
 COPY ./tools/dbCreation.sh /dbCreation.sh
 
-RUN chmod +x /dbCreation.sh
-
-CMD ["mysqld_safe"]
+ENTRYPOINT ["/bin/bash", "dbCreation.sh"]

@@ -1,7 +1,7 @@
 FROM debian:buster
 
-RUN apt-get -y update \
-    && apt-get install -y curl php-fpm php php-mysql \
+RUN apt-get update -y \
+    && apt-get install curl php-fpm php php-mysql -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -o /usr/local/bin/wp \

@@ -1,7 +1,12 @@
 
-echo "stoping the compose build"
+echo "[stop compose build]"
+
 docker compose stop
-echo "deleting volumes"
+
+echo "[delet volumes]"
+
 docker compose down -v
-echo "deleting the biiuild"
+
+echo "[delet the images and containers]"
+
 docker system  prune -a

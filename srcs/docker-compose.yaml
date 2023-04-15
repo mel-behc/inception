@@ -6,13 +6,13 @@ services:
     image: inception_mariadb
     container_name: mariadb
     volumes:
-      - db_volume:/var/lib/mysql/
+      - db_volume:/var/lib/mysql
     env_file: 
       - .env
     networks:
       - internal_network
     restart: on-failure
-
+  
   nginx:
     build: ./requirements/nginx/
     image: inception_nginx
@@ -39,8 +39,6 @@ services:
       - wp_volume:/var/www/html
     env_file: 
       - .env
-    ports:
-      - 9000:9000
     networks:
       - internal_network
     restart: on-failure
@@ -52,29 +50,52 @@ services:
     networks:
       - internal_network
     volumes:
-      - db_volume:/var/lib/mysql/
+      - db_volume:/var/lib/mysql
     ports:
-      - "8080:8080"
+      - 500:8080
     depends_on:
       - mariadb
     restart: on-failure
 
+  cadvisor:
+    container_name: cadvisor
+    build: ./requirements/bonus/cadvisor/.
+    image: cadvisor:42
+    ports:
+      - 8080:8080
+    networks:
+      - internal_network
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro 
+      - /sys:/sys:ro 
+      - /var/lib/docker/:/var/lib/docker:ro
+    restart: always
+
+  webPage:
+    build: ./requirements/bonus/webPage
+    image: web
+    container_name: web
+    restart: always
+    ports:
+      - 8085:80
+    networks:
+      - internal_network
+
 volumes:
-  wp_volume:
-    name: wp_volume
-    driver: local
-    driver_opts:
-      device: /Users/mel-behc/data/mariadb_volume
-      type: none
-      o: bind
   db_volume:
-    name: db_volume
     driver: local
     driver_opts:
-      device: /Users/mel-behc/data/wordpress_volume
       type: none
       o: bind
-  
+      device: /Users/mel-behc/data/mariadb
+  wp_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /Users/mel-behc/data/wordpress
+
 networks:
   internal_network:
     name: 'internal_network'

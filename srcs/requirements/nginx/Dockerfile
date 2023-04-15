@@ -1,8 +1,8 @@
 FROM debian:buster
 
-RUN apt-get -y update \
-    && apt-get install -y nginx \
-    && apt-get install -y openssl 
+RUN apt-get update -y \
+    && apt-get install nginx -y \
+    && apt-get install openssl -y
 
 # RUN useradd -r nginx
 
