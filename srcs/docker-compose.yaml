@@ -1,18 +1,7 @@
 version: '3.7'
 
 services:
-  mariadb:
-    build: ./requirements/mariadb/
-    image: inception_mariadb
-    container_name: mariadb
-    volumes:
-      - db_volume:/var/lib/mysql
-    env_file: 
-      - .env
-    networks:
-      - internal_network
-    restart: on-failure
-  
+
   nginx:
     build: ./requirements/nginx/
     image: inception_nginx
@@ -28,7 +17,19 @@ services:
     networks:
       - internal_network
     restart: on-failure
-
+  
+  mariadb:
+    build: ./requirements/mariadb/
+    image: inception_mariadb
+    container_name: mariadb
+    volumes:
+      - db_volume:/var/lib/mysql
+    env_file: 
+      - .env
+    networks:
+      - internal_network
+    restart: on-failure
+  
   wordpress:
     build: ./requirements/wordpress/
     image: inception_wordperss

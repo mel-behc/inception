@@ -9,4 +9,5 @@ RUN curl https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 
 COPY /tools/wordperssScript.sh /
 
+
 ENTRYPOINT ["/bin/bash", "wordperssScript.sh"]

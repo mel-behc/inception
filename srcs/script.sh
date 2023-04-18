@@ -5,7 +5,7 @@ docker compose stop
 
 echo "[delet volumes]"
 
-docker compose down -v
+docker compose down
 
 echo "[delet the images and containers]"
 

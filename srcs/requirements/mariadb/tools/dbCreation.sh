@@ -8,8 +8,6 @@ echo "GRANT ALL PRIVILEGES ON $MYSQL_DB_NAME.* TO '$MYSQL_USR'@'%' ;" | mysql
 echo "ALTER USER '$MYSQL_ROOT_USR'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PWD';" | mysql
 echo "FLUSH PRIVILEGES;" | mysql
 
-# mysqladmin -u "$MYSQL_ROOT_USR" -p"$MYSQL_ROOT_PWD" shutdown
-
 kill $(cat /var/run/mysqld/mysqld.pid)
 
 mysqld_safe
